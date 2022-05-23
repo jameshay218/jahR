@@ -1,0 +1,45 @@
+---
+title: "example2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Header 1
+Blah
+
+### Header 2
+*emphasis*
+
+List:
+
+* 1
+* 2
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo=TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(jahR)
+library(doMC)
+```
+
+Now we will add code
+
+```{r code_chunk_1, fig.width=5,fig.height=3}
+x <- rnorm(1000)
+hist(x)
+```
+
+```{r table_example}
+dat <- data.frame(x=1:100,y=rnorm(100))
+print(dat)
+
+```

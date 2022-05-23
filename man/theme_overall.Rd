@@ -12,5 +12,8 @@ A ggplot2 theme object
 \description{
 Adds my custom ggplot2 theme to a ggplot2 object, with the intention of standardizing my plots.
 }
+\examples{
+ggplot(data=data.frame(x=rnorm(100))) + geom_histogram(aes(x=x)) + theme_overall()
+}
 \keyword{ggplot2,}
 \keyword{theme}

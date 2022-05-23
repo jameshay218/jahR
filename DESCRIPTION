@@ -14,12 +14,14 @@ Imports:
   ggplot2,
   deSolve
 Suggests:
-  knitr,
-  devtools,
-  roxygen2,
-  testthat
+    knitr,
+    devtools,
+    roxygen2,
+    testthat,
+    rmarkdown
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr

@@ -5,7 +5,7 @@
 #' @return A ggplot2 theme object
 #' @export
 #' @import ggplot2
-#' @example
+#' @examples
 #' ggplot(data=data.frame(x=rnorm(100))) + geom_histogram(aes(x=x)) + theme_overall()
 theme_overall <- function(){
   theme_bw() + theme(axis.text=element_text(size=7),axis.title = element_text(size=8),plot.tag = element_text(size=10,face="bold"),
@@ -18,7 +18,7 @@ theme_overall <- function(){
 #' @keywords ggplot2, theme
 #' @return A ggplot2 theme object
 #' @export
-#' @example
+#' @examples
 #' ggplot(data=data.frame(x=rnorm(100))) + geom_histogram(aes(x=x)) + theme_no_x_axis()
 theme_no_x_axis <- function(){
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),axis.title.x=element_blank(),axis.line.x=element_blank())
@@ -30,7 +30,7 @@ theme_no_x_axis <- function(){
 #' @keywords ggplot2, theme
 #' @return A ggplot2 theme object
 #' @export
-#' @example
+#' @examples
 #' ggplot(data=data.frame(x=rnorm(100))) + geom_histogram(aes(x=x)) + theme_nice_axes()
 theme_nice_axes <- function(){
   theme_nice_axes <- theme(axis.line.x=element_line(size=0.5,color="black"),axis.line.y=element_line(size=0.5,color="black"),panel.border = element_blank())
