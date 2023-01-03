@@ -12,5 +12,8 @@ A ggplot2 theme object
 \description{
 Removes the x-axis line, ticks and text from a ggplot2 object
 }
+\examples{
+ggplot(data=data.frame(x=rnorm(100))) + geom_histogram(aes(x=x)) + theme_no_x_axis()
+}
 \keyword{ggplot2,}
 \keyword{theme}

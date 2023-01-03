@@ -8,7 +8,10 @@
 #' @examples
 #' ggplot(data=data.frame(x=rnorm(100))) + geom_histogram(aes(x=x)) + theme_overall()
 theme_overall <- function(){
-  theme_bw() + theme(axis.text=element_text(size=7),axis.title = element_text(size=8),plot.tag = element_text(size=10,face="bold"),
+  theme_minimal() + theme(axis.text=element_text(size=7),
+                     axis.title = element_text(size=8),
+                     plot.title=element_text(size=10),
+                     plot.tag = element_text(size=10,face="bold"),
                      legend.text=element_text(size=7),legend.title=element_text(size=8))
 }
 

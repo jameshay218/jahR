@@ -12,5 +12,8 @@ A ggplot2 theme object
 \description{
 Makes some nice axis lines for a ggplot2 object
 }
+\examples{
+ggplot(data=data.frame(x=rnorm(100))) + geom_histogram(aes(x=x)) + theme_nice_axes()
+}
 \keyword{ggplot2,}
 \keyword{theme}
