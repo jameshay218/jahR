@@ -6,14 +6,6 @@
 \usage{
 fit_geometric(prob, dat)
 }
-\arguments{
-\item{prob}{probability of success}
-
-\item{dat}{is a vector of event observation times}
-}
-\value{
-negative sum log likelihood from dgeom
-}
 \description{
 Function for optim to fit a geometric distribution
 }

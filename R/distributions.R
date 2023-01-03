@@ -260,10 +260,6 @@ fit_poisson <- function(pars, dat){
 }
 
 #' Function for optim to fit a gamma distribution
-#' 
-#' @param pars vector, 1: gamma mean; 2: gamma variance
-#' @param dat is a vector of event observation times
-#' @return negative sum log likelihood from dgamma_mean
 fit_gamma <- function(pars, dat){
     -sum(dgamma(dat, shape=pars[1], scale=pars[2], log=TRUE))
 }
@@ -275,10 +271,6 @@ fit_gamma_density <- function(pars, dat) {
 }
 
 #' Function for optim to fit a geometric distribution
-#' 
-#' @param prob probability of success
-#' @param dat is a vector of event observation times
-#' @return negative sum log likelihood from dgeom
 fit_geometric <- function(prob, dat){
     -sum(dgeom(x=dat, prob, log=TRUE))
 }

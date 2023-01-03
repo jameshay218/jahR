@@ -6,14 +6,6 @@
 \usage{
 fit_gamma(pars, dat)
 }
-\arguments{
-\item{pars}{vector, 1: gamma mean; 2: gamma variance}
-
-\item{dat}{is a vector of event observation times}
-}
-\value{
-negative sum log likelihood from dgamma_mean
-}
 \description{
 Function for optim to fit a gamma distribution
 }
