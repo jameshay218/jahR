@@ -7,7 +7,7 @@
 #' @examples
 #' dbb(10,50,1,1)
 #' @export
-dbb <- function(x, N, u, v) {
+dbb <- function(x, u, v, N) {
   beta(x + u, N - x + v) / beta(u, v) * choose(N, x)
 }
 
@@ -22,7 +22,7 @@ dbb <- function(x, N, u, v) {
 #' @examples
 #' pbb(10,50,1,1)
 #' @export
-pbb <- function(q, N, u, v) {
+pbb <- function(q, u, v, N) {
   sapply(q, function(xx) sum(dbb(0:xx, N, u, v)))
 }
 
@@ -35,7 +35,7 @@ pbb <- function(q, N, u, v) {
 #' @examples
 #' qbb(10,50,1,1)
 #' @export
-qbb <- function(p, N, u, v) {
+qbb <- function(p, u, v,N) {
   pp <- cumsum(dbb(0:N, N, u, v))
   sapply(p, function(x) sum(pp < x))
 }
@@ -49,7 +49,7 @@ qbb <- function(p, N, u, v) {
 #' @examples
 #' rbb(100,50,1,1)
 #' @export
-rbb <- function(n, N, u, v) {
+rbb <- function(n, u, v, N) {
   p <- rbeta(n, u, v)
   rbinom(n, N, p)
 }
