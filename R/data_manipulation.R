@@ -51,3 +51,18 @@ print_estimate <- function(x,average="mean", quantiles=c(0.025,0.975),nsignif=3)
     label <- paste0(signif(par1,nsignif), "; (", par2[1], "-",par2[2],")")
     return(label)
 }
+
+#' Separates text from numbers in square brackets
+#'
+#' @param dat a tibble or data frame
+#' @param target_var the variable name as a string to be split
+#' @param number_name the name to give to the new number variable
+#' @param text_name the name to give to the new text variable
+#' @return a modified tibble
+#' @export
+extract_numbers_and_text <- function(dat, target_var, number_name="number",text_name="text"){
+  dat %>% 
+    mutate(!!number_name:=as.numeric(gsub(".*\\[(\\d+)\\].*", "\\1", !!rlang::parse_quo(target_var, env = rlang::caller_env())))) %>% 
+    mutate(!!text_name:=gsub("\\[[0-9]+\\]", "", !!rlang::parse_quo(target_var, env = rlang::caller_env()))) 
+  
+}
