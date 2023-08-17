@@ -4,16 +4,16 @@
 \alias{qbb}
 \title{Beta binomial quantile function}
 \usage{
-qbb(p, N, u, v)
+qbb(p, u, v, N)
 }
 \arguments{
 \item{p}{vector of probabilities}
 
-\item{N}{the number of trials}
-
 \item{u}{equivalent to alpha in description}
 
 \item{v}{equivalent to beta in description}
+
+\item{N}{the number of trials}
 }
 \value{
 the beta binomial quantile function

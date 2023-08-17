@@ -4,16 +4,16 @@
 \alias{dbb}
 \title{Beta binomial density}
 \usage{
-dbb(x, N, u, v)
+dbb(x, u, v, N)
 }
 \arguments{
 \item{x}{the number of successes}
 
-\item{N}{the number of trials}
-
 \item{u}{equivalent to alpha in description}
 
 \item{v}{equivalent to beta in description}
+
+\item{N}{the number of trials}
 }
 \value{
 the probability density of the beta binomial with given input parameters

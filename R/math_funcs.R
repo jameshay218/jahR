@@ -25,6 +25,23 @@ logistic <- function(p){
     return(1/(1+exp(-p)))
 }
 
+#' Logistic function with start and end
+#' 
+#' The logistic function with specified start, end, rate and switchpoint
+#' @param t value to solve over
+#' @param start the start value
+#' @param end the end value
+#' @param rate rate of exponential growth
+#' @param switch the midpoint of the logistic function
+#' @return numeric value
+#' @export
+#' @examples
+#' logistic_function_full(seq(0,100,by=1),0.3,0.9,0.1,50)
+logistic_function_full <- function(t,start,end, rate, switch=100){
+  start + (end-start)/(1 + exp(-rate*(t-switch)))
+}
+
+
 #' Custom logistic transformation
 #' 
 #' Transforms a given value from between -Inf and Inf to xmin and xmax

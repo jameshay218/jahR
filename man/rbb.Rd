@@ -4,16 +4,16 @@
 \alias{rbb}
 \title{Beta binomial random generation}
 \usage{
-rbb(n, N, u, v)
+rbb(n, u, v, N)
 }
 \arguments{
 \item{n}{number of draws}
 
-\item{N}{the number of trials}
-
 \item{u}{equivalent to alpha in description}
 
 \item{v}{equivalent to beta in description}
+
+\item{N}{the number of trials}
 }
 \value{
 the beta binomial random draw function
