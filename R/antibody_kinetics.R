@@ -318,7 +318,7 @@ create_kinetics_posterior_function <- function(parTab, data, PRIOR_FUNC,model_fu
       
    
       if(!is.null(titer_range)){
-        lik <- serosolver::likelihood_func_fast_continuous(c("obs_sd"=pars["obs_sd"],"MIN_TITRE"=titer_range[1],"MAX_TITRE"=titer_range[2]), titers, model_titers)
+        lik <- likelihood_func_fast_continuous(c("obs_sd"=pars["obs_sd"],"MIN_TITRE"=titer_range[1],"MAX_TITRE"=titer_range[2]), titers, model_titers)
       } else {
         lik <- sum(dnorm(titers, model_titers, sd=pars["obs_sd"],log=TRUE))
       }
@@ -427,7 +427,7 @@ create_multi_kinetics_posterior_function <- function(parTab, data, PRIOR_FUNC,mo
       }
       if(ver == "model") return(model_titers)
       if(!is.null(titer_range)){
-          lik <- sum(serosolver::likelihood_func_fast_continuous(c("error"=unname(pars["obs_sd"]),"MIN_TITRE"=titer_range[1],"MAX_TITRE"=titer_range[2]), titers, model_titers))
+          lik <- sum(likelihood_func_fast_continuous(c("error"=unname(pars["obs_sd"]),"MIN_TITRE"=titer_range[1],"MAX_TITRE"=titer_range[2]), titers, model_titers))
         } else {
           lik <- sum(dnorm(titers, model_titers, sd=pars["obs_sd"],log=TRUE))
         }
