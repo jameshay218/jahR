@@ -31,7 +31,7 @@ Model parameters:
 }
 }
 \examples{
-pars <- c("t_i"=0,"tp"=21,"mu"=8,"dp"=0.2,"ts"=50,"m"=0.0075,"lower_bound"=0, "y0"=0)
+pars <- c("tp"=21,"mu"=8,"dp"=0.2,"ts"=50,"m"=0.0075,"lower_bound"=0, "y0"=0)
 times <- seq(0,100,by=0.1)
 y <- kinetics_piecewise(times,pars)
 plot(times, y, type='l')

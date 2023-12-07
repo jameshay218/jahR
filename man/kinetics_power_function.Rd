@@ -23,7 +23,7 @@ Model parameters:
 \item{"t_peak"}{time of peak antibody level post exposure}
 \item{"peak"}{peak antibody level on natural scale}
 \item{"k"}{antibody level dependent boosting term}
-\item{"y0"}{starting antibody level on natural scale}
+\item{"y0"}{starting antibody level on natural scale -- Note this needs to start at 1}
 \item{"v"}{antibody decay rate}
 \item{"r"}{shape of antibody decay function}
 }
@@ -39,7 +39,7 @@ peak <- 10^(rnorm(N,5, 1.5)) ## Peak titre
 times <- seq(0,365,by=0.1)
 ys <- matrix(nrow=N,ncol=length(times))
 for(i in 1:N){
-  ys[i,] <- kinetics_function2_original(times, c(t_peak=21,peak=peak[i],r=r[i],v=v[i],y0=1,k=0))
+  ys[i,] <- kinetics_power_function(times, c(t_peak=21,peak=peak[i],r=r[i],v=v[i],y0=1,k=0))
 }
 ys <- log10(ys)
 
