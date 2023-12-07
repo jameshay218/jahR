@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @export
 // [[Rcpp::export]]
 NumericVector kinetics_power_function_cpp(NumericVector times, NumericVector pars) {
   int n_times = times.size();
