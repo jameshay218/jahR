@@ -4,7 +4,9 @@
 #' Fast observation error function continuous
 NULL
 
+#' Fast implementation of the power-law waning antibody kinetics function
 #' @export
+#' @inheritParams kinetics_power_function
 kinetics_power_function_cpp <- function(times, pars) {
     .Call('_jahR_kinetics_power_function_cpp', PACKAGE = 'jahR', times, pars)
 }

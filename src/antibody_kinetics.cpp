@@ -1,7 +1,9 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' Fast implementation of the power-law waning antibody kinetics function
 //' @export
+//' @inheritParams kinetics_power_function
 // [[Rcpp::export]]
 NumericVector kinetics_power_function_cpp(NumericVector times, NumericVector pars) {
   int n_times = times.size();
