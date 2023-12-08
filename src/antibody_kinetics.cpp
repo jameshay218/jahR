@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' @name Fast implementation of the power-law waning antibody kinetics function
+//' Fast implementation of the power-law waning antibody kinetics function
 //' @export
 //' @inheritParams kinetics_power_function
 // [[Rcpp::export]]

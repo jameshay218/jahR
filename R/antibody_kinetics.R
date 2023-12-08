@@ -279,6 +279,19 @@ kinetics_piecewise <- function(times, pars){
   y
 }
 
+#' Posterior function pointer (single)
+#' 
+#' Used by lazymcmc::run_MCMC to generate posterior draws from the specified model/data.
+#' @param parTab the parameter table controlling information such as bounds, initial values etc.
+#' @param data the data used for model fitting. Should have variables i (individual ID), time (time since infection/exposure) and titer (measurement).
+#' @param PRIOR_FUNC pointer to a function specifying priors on model parameters.
+#' @param model_func pointer to the antibody kinetics model function used
+#' @param use_log if TRUE, transforms the model predicted titers to log10 titers
+#' @param ver if "posterior" returns a posterior probability. If "model", returns the model-predicted titers corresponding to the observation times
+#' @param random_effects if TRUE, assumes that individual-level parameter estimates have random effects
+#' @param titer_range a vector giving the upper and lower bound of the assay
+#' @param solve_likleihood if TRUE, calculates the likelihood at each run. If FALSE, just calculates the prior probability.
+#' @return a single function pointer that takes only pars unnamed arguments. This function goes on to return a posterior probability for the given model parameters.
 #' @export
 create_kinetics_posterior_function <- function(parTab, data, PRIOR_FUNC,model_func, use_log=FALSE, ver="posterior",
                                                random_effects=TRUE,titer_range=NULL, solve_likelihood=TRUE){
@@ -331,7 +344,10 @@ create_kinetics_posterior_function <- function(parTab, data, PRIOR_FUNC,model_fu
   }
   return(f)
 }
-
+#' Posterior function pointer
+#' 
+#' Used by lazymcmc::run_MCMC to generate posterior draws from the specified model/data.
+#' @inheritParams create_kinetics_posterior_function
 #' @export
 create_multi_kinetics_posterior_function <- function(parTab, data, PRIOR_FUNC,model_func, use_log=FALSE, ver="posterior",
                                                random_effects=TRUE,titer_range=NULL,solve_likelihood=TRUE){
@@ -441,7 +457,19 @@ create_multi_kinetics_posterior_function <- function(parTab, data, PRIOR_FUNC,mo
 }
 
 
-## Get prediction intervals
+#' Calculate posterior prediction intervals for model trajectories
+#' 
+#' @param model_func pointer to antibody kinetics function used to general modeled trajectories
+#' @param n_samp how many posterior draws to use?
+#' @param indivs optional, if not NULL, a vector of which individual indices to calculate trajectories for
+#' @param chain the MCMC chain object to draw posterior samples from
+#' @param dat the data used in the original model fitting
+#' @param expand_times if TRUE, solves the model over all times specified in `times`, otherwise just solves the model for the observation times
+#' @param times vector of times to solve model over if expand_times is TRUE
+#' @param use_log if TRUE, log10 transforms the model-predicted titers
+#' @param add_noise if TRUE, adds simulated noise from the observation error distribution to the trajectories (and thus can be used to get prediction rather than credible intervals)
+#' @param titer_range a vector giving the upper and lower bounds of the assay
+#' @return a list with two tibbles. The first contains n_samp posterior draws for the model trajectories. The second returns posterior median and 95% CrI or prediction intervals for the model trajectories.
 #' @export
 get_kinetics_prediction_intervals <- function(model_func, n_samp, indivs=NULL, chain, dat, expand_times=TRUE, times=NULL, use_log=TRUE, add_noise=FALSE,titer_range=NULL){
   unique_samps <- unique(chain$sampno)
@@ -484,6 +512,11 @@ get_kinetics_prediction_intervals <- function(model_func, n_samp, indivs=NULL, c
   return(list(res,res_summary))
 }
 
+#' Plots posterior estimates for the latent antibody trajectories
+#' 
+#' @inheritParams get_kinetics_prediction_intervals
+#' @param plot_draws if TRUE, then plots individual draws from the posterior, otherwise plots a ribbon of credible/prediction intervals and posterior median.
+#' @return a ggplot2 object
 #' @export
 plot_model_fits <- function(model_func, n_samp, indivs=NULL, chain, dat, expand_times=TRUE, times=NULL, use_log=TRUE,plot_draws=TRUE){
   tmp <- get_kinetics_prediction_intervals(model_func,n_samp, indivs, chain,  dat,expand_times, times, use_log)
@@ -503,7 +536,10 @@ plot_model_fits <- function(model_func, n_samp, indivs=NULL, chain, dat, expand_
   p1 <- p1 + ylab("Titer") + xlab("Time") + theme_bw()
   p1
 }
-
+#' Plots posterior estimates for the population-mean antibody trajectory
+#' 
+#' @inheritParams plot_model_fits
+#' @return a ggplot2 object
 #' @export
 plot_model_fits_mean <- function(model_func, chain, parTab, nsamp=100,times=seq(0,365,by=1),use_log=TRUE, plot_draws=TRUE){
   chain_means <- extract_population_distributions(chain, parTab, nsamp)
@@ -536,6 +572,12 @@ plot_model_fits_mean <- function(model_func, chain, parTab, nsamp=100,times=seq(
   p1
 }
 
+#' Plots posterior densities and traceplots for the model parameters
+#' 
+#' @inheritParams plot_model_fits
+#' @param ver either "means","var",or "indivs" to plot population mean parameter estimates, population variance of parameters, or individual-level parameters.
+#' @param transform if TRUE, exponentiates the parameter values.
+#' @return a ggplot2 object
 #' @export
 plot_posteriors <- function(chain, parTab, nsamp=100, ver="means",indivs=NULL,transform=FALSE){
   if(!(ver %in% c("means","var","indivs"))){
@@ -604,7 +646,10 @@ plot_posteriors <- function(chain, parTab, nsamp=100, ver="means",indivs=NULL,tr
   return(list(p_trace, p_density))
 }
 
-
+#' Extracts posterior draws for the population-level parameters
+#' 
+#' @inheritParams plot_model_fits
+#' @return a tibble with posterior draws
 #' @export
 extract_population_distributions <- function(chain, parTab, nsamp){
   unique_samps <- unique(chain$sampno)
@@ -628,6 +673,10 @@ extract_population_distributions <- function(chain, parTab, nsamp){
   chain_melted
 }
 
+#' Extracts posterior draws for the individual-level parameters
+#' 
+#' @inheritParams plot_model_fits
+#' @return a tibble with posterior draws
 #' @export
 extract_individual_parameters <- function(chain, parTab, nsamp){
   unique_samps <- unique(chain$sampno)
@@ -659,14 +708,4 @@ extract_individual_parameters <- function(chain, parTab, nsamp){
            popn_mean=mean,
            popn_var=var)
 
-}
-
-if(FALSE){
-  use_chain <- chain[,c(1,which(parTab_use$i > 0) + 1)]
-  use_chain <- use_chain %>% pivot_longer(-sampno)
-  use_chain <- use_chain %>% rowwise() %>% mutate(par=str_split_1(name,"[.]")[1]) %>% mutate(i=as.numeric(str_split_1(name,"[.]")[2]) + 1) %>% mutate(i = if_else(is.na(i),1,i))
-  use_chain <- use_chain %>% select(-name) %>% ungroup()
-  if(transform){
-    use_chain <- use_chain %>%  mutate(value =exp(value))
-  }
 }
