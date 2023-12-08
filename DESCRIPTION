@@ -21,9 +21,7 @@ Suggests:
     testthat,
     rmarkdown
 LinkingTo: 
-    Rcpp,
-    RcppArmadillo,
-    RcppParallel
+    Rcpp
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
