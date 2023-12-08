@@ -12,14 +12,14 @@ Depends:
   R (>= 4.0)
 Imports:
   ggplot2,
-  deSolve,
   Rcpp
 Suggests:
     knitr,
     devtools,
     roxygen2,
     testthat,
-    rmarkdown
+    rmarkdown,
+    deSolve
 LinkingTo: 
     Rcpp
 License: MIT + file LICENSE
