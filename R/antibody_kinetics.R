@@ -627,3 +627,46 @@ extract_population_distributions <- function(chain, parTab, nsamp){
     chain_melted <- left_join(chain_means,chain_var) 
   chain_melted
 }
+
+#' @export
+extract_individual_parameters <- function(chain, parTab, nsamp){
+  unique_samps <- unique(chain$sampno)
+  samps <- sample(unique_samps, nsamp)
+  chain <- chain[chain$sampno %in% samps,]
+  
+  
+  cols_means <- which(parTab$names %like% "mean")
+  cols_vars <- which(parTab$names %like% "var")
+  use_cols_indiv <- which(parTab$i > 0 & parTab$fixed == 0)
+  chain_means <- chain[,c(1, cols_means+1)]
+  chain_var <- chain[,c(1, cols_vars+1)]
+  chain_indiv <- chain[,c(1, use_cols_indiv+1)]
+  
+  chain_means <- chain_means %>% pivot_longer(-sampno) %>% 
+    mutate(par=str_remove(name, "_mean")) %>%
+    rename(mean=value)%>% select(-name)
+  chain_var <- chain_var %>% pivot_longer(-sampno) %>% 
+    mutate(par=str_remove(name, "_var")) %>%
+    rename(var=value) %>% select(-name)
+  chain_indiv <- chain_indiv%>% pivot_longer(-sampno) %>%
+    mutate(par = str_split(name, "[.]",simplify=TRUE)[,1]) %>%
+    mutate(i = as.numeric(str_split(name, "[.]",simplify=TRUE)[,2])+1) %>%
+    mutate(i=if_else(is.na(i),1,i)) %>%
+    select(-name)
+  chain_melted <- left_join(chain_indiv, chain_means) %>% left_join(chain_var)
+  chain_melted <- chain_melted %>% mutate(value = exp(mean + var*value)) %>%
+    rename(indiv_estimate=value,
+           popn_mean=mean,
+           popn_var=var)
+
+}
+
+if(FALSE){
+  use_chain <- chain[,c(1,which(parTab_use$i > 0) + 1)]
+  use_chain <- use_chain %>% pivot_longer(-sampno)
+  use_chain <- use_chain %>% rowwise() %>% mutate(par=str_split_1(name,"[.]")[1]) %>% mutate(i=as.numeric(str_split_1(name,"[.]")[2]) + 1) %>% mutate(i = if_else(is.na(i),1,i))
+  use_chain <- use_chain %>% select(-name) %>% ungroup()
+  if(transform){
+    use_chain <- use_chain %>%  mutate(value =exp(value))
+  }
+}
