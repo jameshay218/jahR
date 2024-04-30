@@ -387,3 +387,26 @@ fit_log_normal_density <- function(pars, dat){
     out <- dlnorm(dat$x, mean = shape1, sd = shape2)
     return(sum((out - dat$y)^2))
 }
+
+#' Estimate vector mode
+#'
+#' @param x the vector to be estimated
+#' @return the estimated mode of the given vector of values
+#' @examples
+#' x <- runif(1000)
+#' y <- estimate_mode(x)
+#' @export
+estimate_mode <- function(x) {
+  d <- density(x)
+  d$x[which.max(d$y)]
+}
+
+#' Creates a covariance matrix from a vector of standard deviations and a correlation matrix
+#' 
+#' @param sds vector of standard deviations
+#' @param cor_mat a correlation matrix with nrow and ncol the same as length(sds)
+#' @return the covariance matrix
+#' @export
+create_cov_mat <- function(sds, cor_mat){
+  diag(sds) %*% cor_mat %*% diag(sds)
+}
